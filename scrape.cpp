@@ -55,11 +55,13 @@ int main(void)
   string curlOut = doCurl(fictionUrl);
   string filename;
 
-  /*// Uncomment to give custom filenames
+  /*// Gives custom filenames
   cout << "Please enter name of file to save to here: ";
   cin >> filename;
   */
 
   writeToFile(curlOut, filename);
+  system("./urlWizard.sh");
+
   return 0;
 }
