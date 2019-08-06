@@ -39,14 +39,27 @@ void writeToFile(string curlOut, string filename)
   outfile.close();
 }
 
+string getFictionId()
+{
+  string fictionId;
+  string urlPrefix = "http://www.royalroad.com/fiction/";
+  cout << "Enter Fiction ID: ";
+  cin >> fictionId;
+  string fictionUrl = urlPrefix + fictionId;
+  return fictionUrl;
+}
+
 int main(void)
 {
-  string curlLoc = "http://www.royalroad.com/fiction/11209/";
-  string curlOut = doCurl(curlLoc);
+  string fictionUrl = getFictionId();
+  string curlOut = doCurl(fictionUrl);
   string filename;
+
+  /*// Uncomment to give custom filenames
   cout << "Please enter name of file to save to here: ";
   cin >> filename;
-  cout << endl;
+  */
+
   writeToFile(curlOut, filename);
   return 0;
 }
