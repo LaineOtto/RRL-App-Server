@@ -5,14 +5,23 @@
 
 using namespace std;
 
-static size_t WriteCallback(void *contents, size_t size, size_t nmemb, void *userp)
-{
+
+// Todo: Figure out how/why this works and what it does
+// Things I Know:
+//    It breaks the program if I remove it
+//    It breaks the program if I remove the call to it
+//    It interacts with CURLOPT_WRITEDATA somehow
+//      ^ involves the last argument
+static size_t WriteCallback(void *contents, size_t size, size_t nmemb, void *userp) {
     ((string*)userp)->append((char*)contents, size * nmemb);
     return size * nmemb;
 }
 
-string doCurl(string curlURL)
-{
+
+// If you pass 1 to second arg, won't cleanup connection.
+// Probably useful to not cleanup when scraping,
+//    to make things less intesive for everyone.
+string doCurl(string curlURL, int doCleanup = 0) {
   string readBuffer;
   CURL * curlhandle = curl_easy_init();
   if(curlhandle) {
@@ -22,25 +31,25 @@ string doCurl(string curlURL)
     curl_easy_setopt(curlhandle, CURLOPT_HEADER, 0);
     curl_easy_setopt(curlhandle, CURLOPT_FOLLOWLOCATION, 1);
     curl_easy_perform(curlhandle);
-    curl_easy_cleanup(curlhandle);
+    if (doCleanup == 0) {
+      curl_easy_cleanup(curlhandle);
+    }
+
   }
   return readBuffer;
 }
 
-void writeToFile(string curlOut, string filename)
-{
+
+// Probably a better way to do this, but whatever
+void writeToFile(string curlOut) {
   ofstream outfile;
-  if (filename == "") {
-    outfile.open ("rr.html");
-  } else {
-    outfile.open (filename);
-  }
+  outfile.open ("rr.html");
   outfile << curlOut;
   outfile.close();
 }
 
-string getFictionId()
-{
+// Todo: Make this a CLI argument
+string getFictionId() {
   string fictionId;
   string urlPrefix = "http://www.royalroad.com/fiction/";
   cout << "Enter Fiction ID: ";
@@ -49,20 +58,15 @@ string getFictionId()
   return fictionUrl;
 }
 
-int main(void)
-{
+int main(void) {
+  cout << "Scraping fiction page..." << endl;
   string fictionUrl = getFictionId();
-  cout << "Scraping..." << endl;
   string curlOut = doCurl(fictionUrl);
-  string filename;
-
-  /*// Gives custom filenames
-  cout << "Please enter name of file to save to here: ";
-  cin >> filename;
-  */
 
   cout << "Writing File..." << endl;
-  writeToFile(curlOut, filename);
+  writeToFile(curlOut);
+
+  cout << "String Wizardry!" << endl;
   system("./stringWizard.sh");
 
   return 0;

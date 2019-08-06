@@ -1,5 +1,4 @@
 #!/bin/bash
-echo "Constructing URLs..."
 # Grabs all ch urls and outputs them to linkPostFix.txt
 grep "data-url" rr.html | sed 's#.*"/##' | sed 's#">$##' | sed 's#^fiction#https://www.royalroad.com/fiction#' > linkPostFix.txt
 
