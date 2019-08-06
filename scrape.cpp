@@ -52,6 +52,7 @@ string getFictionId()
 int main(void)
 {
   string fictionUrl = getFictionId();
+  cout << "Scraping..." << endl;
   string curlOut = doCurl(fictionUrl);
   string filename;
 
@@ -60,8 +61,9 @@ int main(void)
   cin >> filename;
   */
 
+  cout << "Writing File..." << endl;
   writeToFile(curlOut, filename);
-  system("./urlWizard.sh");
+  system("./stringWizard.sh");
 
   return 0;
 }
