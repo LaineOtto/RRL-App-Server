@@ -34,3 +34,5 @@
 # Specific to this project
 *.html
 *.txt
+*.epub
+.DS*
