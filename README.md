@@ -6,4 +6,9 @@ Ubuntu 18.04 LTS
 
 Dynamic Dns w/ afraid.org(royalroad.chickenkiller.com)
 
-libcurl for scraping
+# Dependencies
+requests
+
+BeautifulSoup
+
+ebooklib

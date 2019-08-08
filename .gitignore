@@ -35,4 +35,5 @@
 *.html
 *.txt
 *.epub
+*test*
 .DS*
