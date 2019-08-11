@@ -12,3 +12,5 @@ requests
 BeautifulSoup
 
 ebooklib
+
+click
