@@ -1,6 +1,8 @@
+#!/usr/bin/env python3
 import requests
 from bs4 import BeautifulSoup
 from ebooklib import epub
+import click
 
 
 def getPage(fictionUrl):  # Todo: error handing
@@ -59,7 +61,7 @@ def getChContent(soupPage):
     return chContent
 
 
-def createBook(title, author, chLinks):
+def createBook(outfile, title, author, chLinks):
     # create vars
     chs = []
     tocLinks = []
@@ -73,13 +75,15 @@ def createBook(title, author, chLinks):
     book.add_author(author)
 
     for link in chLinks:
+        j = i + 1
+        filename = f"chap_{j}.xhtml"
+
         soupPage = getPage(link)  # todo: some kind of input sanitization
         chTitle = getChTitle(soupPage)
         chTitleXml = chTitle.replace(' ', '_')
         chContent = getChContent(soupPage)
 
-        j = i + 1
-        filename = f"chap_{j}.xhtml"
+        print(f'Getting Chapter {j}: {chTitle}')
 
         # Add ch to book
         chs.append(epub.EpubHtml(title=chTitle, file_name=filename))
@@ -101,13 +105,21 @@ def createBook(title, author, chLinks):
     # add CSS file
     book.add_item(nav_css)
 
-    epubName = title.replace(' ', '_')
-    epub.write_epub(f'{epubName}.epub', book, {})
+    if outfile == '' or outfile == None:
+        outfile = title.replace(' ', '_')
+
+    epub.write_epub(f'{outfile}.epub', book, {})
+    print(f'Created {outfile}.epub')
 
 
-def main():
-    fictionUrl = "https://www.royalroad.com/fiction/" + \
-        input("Enter fiction ID here: ")  # Todo: verify this input
+@click.command()
+@click.argument('fiction_id')
+@click.option(
+    '-o', '--outfile',
+    help='Name of file to output to. Do not include extension.',
+)
+def main(fiction_id, outfile):
+    fictionUrl = "https://www.royalroad.com/fiction/" + fiction_id
 
     soupPage = getPage(fictionUrl)
 
@@ -119,7 +131,7 @@ def main():
     chPaths = getChPaths(chTable)
     chLinks = constructLinks(chPaths)
 
-    createBook(title, author, chLinks)
+    createBook(outfile, title, author, chLinks)
 
 
 main()
