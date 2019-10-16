@@ -6,7 +6,8 @@ import click
 
 
 def getPage(fictionUrl):  # Todo: error handing
-    pageResponse = requests.get(fictionUrl)
+    headers = {'User-Agent': "App-Scraper"}
+    pageResponse = requests.get(fictionUrl, headers)
     soupPage = BeautifulSoup(pageResponse.content, 'html.parser')
     return soupPage
 
