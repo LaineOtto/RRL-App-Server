@@ -30,28 +30,6 @@ def getCoverUrl(soupPage):
     return coverUrl
 
 
-# gets table that contain partial chapter links
-def getTable(soupPage):
-    chTable = soupPage.find(id="chapters")
-    return chTable
-
-
-# gets partial links from above table
-def getChPaths(chTable):
-    chPaths = []
-    for link in chTable.find_all('a', href=True):
-        chPaths.append(link.get('href'))
-    return chPaths
-
-
-# turns incomplete chapter paths from the table into full links
-def constructLinks(chPaths):
-    chLinks = []
-    for path in chPaths:
-        chLinks.append("https://www.royalroad.com" + path)
-    return chLinks
-
-
 def getChTitle(soupPage):
     chTitle = soupPage.find('h1').string
     return chTitle
@@ -62,12 +40,23 @@ def getChContent(soupPage):
     return chContent
 
 
-def createBook(outfile, title, author, chLinks):
-    # create vars
-    chs = []
-    tocLinks = []
-    i = 0
+# TO DO: make the two loops one loop
+# gets chapter links in chLinks
+def getChLinks(soupPage):
+    chTable = soupPage.find(id="chapters")
 
+    chPaths = []
+    for link in chTable.find_all('a', href=True):
+        chPaths.append(link.get('href'))
+
+    chLinks = []
+    for path in chPaths:
+        chLinks.append("https://www.royalroad.com" + path)
+
+    return chLinks
+
+
+def createBook(outfile, title, author, chLinks):
     # create book and set metadata
     print('Creating Ebook...')
     book = epub.EpubBook()
@@ -75,14 +64,18 @@ def createBook(outfile, title, author, chLinks):
     book.set_language('en')
     book.add_author(author)
 
+    chs = []
+    # tocLinks = []
+    i = 0
     for link in chLinks:
         j = i + 1
         filename = f"chap_{j}.xhtml"
 
         soupPage = getPage(link)  # todo: some kind of input sanitization
         chTitle = getChTitle(soupPage)
-        chTitleXml = chTitle.replace(' ', '_')
+        # chTitleXml = chTitle.replace(' ', '_')
         chContent = getChContent(soupPage)
+        # print(chContent)
 
         print(f'Getting Chapter {j}: {chTitle}')
 
@@ -100,13 +93,13 @@ def createBook(outfile, title, author, chLinks):
     book.add_item(epub.EpubNav())
 
     # define CSS style
-    style = 'BODY {color: white;}'
+    # style = 'BODY {color: white;}'
     nav_css = epub.EpubItem()
 
     # add CSS file
     book.add_item(nav_css)
 
-    if outfile == '' or outfile == None:
+    if outfile == '' or outfile is None:
         outfile = title.replace(' ', '_')
 
     epub.write_epub(f'{outfile}.epub', book, {})
@@ -128,9 +121,7 @@ def main(fiction_id, outfile):
     author = getAuthor(soupPage)
     # coverUrl = getCoverUrl(soupPage)
 
-    chTable = getTable(soupPage)
-    chPaths = getChPaths(chTable)
-    chLinks = constructLinks(chPaths)
+    chLinks = getChLinks(soupPage)
 
     createBook(outfile, title, author, chLinks)
 
