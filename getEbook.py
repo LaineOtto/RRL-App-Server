@@ -12,6 +12,7 @@ def getPage(fictionUrl):  # Todo: error handing
     return soupPage
 
 
+# TODO: Make all the metadata one function. Dictionary?
 def getTitle(soupPage):
     title = soupPage.find('h1', property="name").string
     return title
@@ -35,12 +36,13 @@ def getChTitle(soupPage):
     return chTitle
 
 
+# TODO: Make this return html instead of \r (which it does for some reason?)
 def getChContent(soupPage):
     chContent = soupPage.find('div', class_="chapter-content").get_text()
     return chContent
 
 
-# TO DO: make the two loops one loop
+# TODO: make the two loops one loop
 # gets chapter links in chLinks
 def getChLinks(soupPage):
     chTable = soupPage.find(id="chapters")
@@ -75,12 +77,15 @@ def createBook(outfile, title, author, chLinks):
         chTitle = getChTitle(soupPage)
         # chTitleXml = chTitle.replace(' ', '_')
         chContent = getChContent(soupPage)
+        chContent = chContent.replace("\r", "<\p><p>")
+        chContent = chContent.replace("<\p>", "<\p>\n")
         # print(chContent)
 
         print(f'Getting Chapter {j}: {chTitle}')
 
         # Add ch to book
         chs.append(epub.EpubHtml(title=chTitle, file_name=filename))
+        # this weird variable call might help with newline issue
         chs[i].content = chContent
         book.add_item(chs[i])
         book.toc.append(chs[i])
