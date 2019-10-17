@@ -1,0 +1,50 @@
+* {
+	background-color: yellow
+}
+
+div {
+	margin: 0 auto;
+	word-wrap: break-word
+}
+
+img {
+	max-width: 100%;
+	height: auto!important
+}
+
+table.table>tbody>tr>td,
+table.table>tbody>tr>th,
+table.table>tfoot>tr>td,
+table.table>tfoot>tr>th,
+table.table>thead>tr>td,
+table.table>thead>tr>th,
+table.table>tr>td,
+table.table>tr>th,
+table>tbody>tr>td,
+table>tbody>tr>th,
+table>tfoot>tr>td,
+table>tfoot>tr>th,
+table>thead>tr>td,
+table>thead>tr>th,
+table>tr>td,
+table>tr>th {
+	border-top: 1px solid rgba(0, 0, 0, .1)
+}
+
+table {
+	background: #004b7a;
+	margin: 10px auto;
+	width: 90%;
+	border: none;
+	box-shadow: 1px 1px 1px rgba(0, 0, 0, .75);
+	border-collapse: separate;
+	border-spacing: 2px
+}
+
+table td {
+	margin: 3px;
+	padding: 5px;
+	color: #ccc;
+	border: 1px solid hsla(0, 0%, 100%, .25)!important;
+	background: rgba(0, 0, 0, .1)
+}

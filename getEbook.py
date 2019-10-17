@@ -98,8 +98,11 @@ def createBook(outfile, title, author, chLinks):
     book.add_item(epub.EpubNav())
 
     # define CSS style
-    # style = 'BODY {color: white;}'
-    nav_css = epub.EpubItem()
+    # TODO: Make css work. Seems to have no effect right now.
+    with open('cssFile.css', 'r', encoding="utf-8") as myfile:
+        style = myfile.read()
+    nav_css = epub.EpubItem(uid="style_nav", file_name="style/nav.css",
+                            media_type="text/css", content=style)
 
     # add CSS file
     book.add_item(nav_css)
