@@ -3,6 +3,7 @@ import requests
 from bs4 import BeautifulSoup
 from ebooklib import epub
 import click
+import re
 
 
 def getPage(fictionUrl):  # Todo: error handing
@@ -37,12 +38,15 @@ def getChTitle(soupPage):
 
 
 # TODO: Make this return html instead of \r (which it does for some reason?)
-def getChContent(soupPage):
-    chContent = soupPage.find('div', class_="chapter-content").get_text()
+def getChContent(soupPage, stripDiv=False):
+    chContent = str(soupPage.find('div', class_="chapter-content"))
+    if stripDiv is True:
+        chContent = re.sub(r'\s*<.*?div[\w\W]*?>\s*', '', chContent, 1)
+        chContent = re.sub(r'\s*</div>\s*$', '', chContent)
     return chContent
 
 
-# TODO: make the two loops one loop
+# TODO: should I make the two loops one loop?
 # gets chapter links in chLinks
 def getChLinks(soupPage):
     chTable = soupPage.find(id="chapters")
@@ -75,11 +79,7 @@ def createBook(outfile, title, author, chLinks):
 
         soupPage = getPage(link)  # todo: some kind of input sanitization
         chTitle = getChTitle(soupPage)
-        # chTitleXml = chTitle.replace(' ', '_')
         chContent = getChContent(soupPage)
-        chContent = chContent.replace("\r", "<\p><p>")
-        chContent = chContent.replace("<\p>", "<\p>\n")
-        # print(chContent)
 
         print(f'Getting Chapter {j}: {chTitle}')
 
