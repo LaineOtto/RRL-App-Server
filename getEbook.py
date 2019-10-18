@@ -43,6 +43,9 @@ def getChContent(soupPage, stripDiv=False):
     if stripDiv is True:
         chContent = re.sub(r'\s*<.*?div[\w\W]*?>\s*', '', chContent, 1)
         chContent = re.sub(r'\s*</div>\s*$', '', chContent)
+    chContent = re.sub(r'\s*?width="[\w\W]*?"\s*?', '', chContent)
+    chContent = re.sub(r'max-width: 100%; ', '', chContent)
+    chContent = re.sub(r'style=""', '', chContent)
     return chContent
 
 
