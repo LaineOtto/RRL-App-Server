@@ -43,7 +43,7 @@ def getChContent(soupPage, stripDiv=False):
     if stripDiv is True:
         chContent = re.sub(r'\s*<.*?div[\w\W]*?>\s*', '', chContent, 1)
         chContent = re.sub(r'\s*</div>\s*$', '', chContent)
-    chContent = re.sub(r'\s*?width="[\w\W]*?"\s*?', '', chContent)
+    chContent = re.sub(r'\s*width="[\w\W]*?"\s*', '', chContent)
     chContent = re.sub(r'max-width: 100%; ', '', chContent)
     chContent = re.sub(r'style=""', '', chContent)
     return chContent
@@ -80,15 +80,15 @@ def createBook(outfile, title, author, chLinks):
         j = i + 1
         filename = f"chap_{j}.xhtml"
 
-        soupPage = getPage(link)  # todo: some kind of input sanitization
+        soupPage = getPage(link)  # TODO: some kind of input sanitization
         chTitle = getChTitle(soupPage)
         chContent = getChContent(soupPage)
 
         print(f'Getting Chapter {j}: {chTitle}')
 
         # Add ch to book
+        # TODO: do I need to make this start at 1?
         chs.append(epub.EpubHtml(title=chTitle, file_name=filename))
-        # this weird variable call might help with newline issue
         chs[i].content = chContent
         book.add_item(chs[i])
         book.toc.append(chs[i])
