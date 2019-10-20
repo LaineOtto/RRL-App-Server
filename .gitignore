@@ -37,4 +37,4 @@
 *.epub
 *test*
 .DS*
-venv
+*venv*
