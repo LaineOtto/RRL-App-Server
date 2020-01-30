@@ -6,7 +6,7 @@
 #include <curl/curl.h>
 #include "functions.h"
 
-CURL *makeHandle(char *url) {
+char *doRequest(char *url) {
   CURL *handle = curl_easy_init();
 
   curl_easy_setopt(handle, CURLOPT_URL, url);
@@ -15,7 +15,8 @@ CURL *makeHandle(char *url) {
   curl_easy_setopt(handle, CURLOPT_FOLLOWLOCATION, 1L);
   curl_easy_setopt(handle, CURLOPT_USERAGENT, "App-Scraper");
 
-  return handle;
+  result = curl_easy_perform(handle);
+  return result;
 }
 
 int main(int argc, char const *argv[]) {
@@ -26,8 +27,7 @@ int main(int argc, char const *argv[]) {
 
   // char *url = "http://" + AWS_LAMBDA_RUNTIME_API + "/2018-06-01/runtime/invocation/next";
   char *url = "http://example.com"
-  makeHandle(url);
-  curl_easy_perform(url);
+  doRequest(url);
 
   //An intentional infinite loop
   // for (;;) {
