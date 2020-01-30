@@ -24,10 +24,14 @@ int main(int argc, char const *argv[]) {
   const char *taskRoot = getenv("LAMBDA_TASK_ROOT");
   const char *runtimeAPI = getenv("AWS_LAMBDA_RUNTIME_API");
 
+  char *url = "http://" + AWS_LAMBDA_RUNTIME_API + "/2018-06-01/runtime/invocation/next";
+  makeHandle(url);
+  curl_easy_preform(url);
+
   //An intentional infinite loop
-  for (;;) {
-    // char *eventData =;
-  }
+  // for (;;) {
+    // char *eventData = curl_easy_preform(url);
+  // }
 
   return 0;
 }
