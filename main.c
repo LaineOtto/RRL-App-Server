@@ -1,9 +1,10 @@
 #include <stdio.h>
-#include "functions.h"
+#include <stdlib.h>
 #include <libxml/HTMLparser.h>
 #include <libxml/xpath.h>
 #include <libxml/uri.h>
 #include <curl/curl.h>
+#include "functions.h"
 
 int main(int argc, char const *argv[]) {
   const char* handler = getenv("_HANDLER");
