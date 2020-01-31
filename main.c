@@ -28,10 +28,10 @@ int main(int argc, char const *argv[]) {
 
   // char *url = "http://" + AWS_LAMBDA_RUNTIME_API + "/2018-06-01/runtime/invocation/next";
   printf("PreUrl\n");
-  char *url = "http://";
-  char *url2 = "example.com";
+  char url[];
+  strcpy(url, "http://")
   printf("MidUrl\n");
-  strcat(url, url2);
+  strcat(url, "example.com");
   printf("PostUrl\n");
   CURLcode result = doRequest(url);
 
