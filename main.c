@@ -27,8 +27,8 @@ int main(int argc, char const *argv[]) {
   const char *runtimeAPI = getenv("AWS_LAMBDA_RUNTIME_API");
 
   // char *url = "http://" + AWS_LAMBDA_RUNTIME_API + "/2018-06-01/runtime/invocation/next";
-  char *urlPrefix = "http://";
-  char *url = strcat(urlPrefix, "example.com");
+  char *url = "http://";
+  strcat(url, "example.com");
   CURLcode result = doRequest(url);
 
 
