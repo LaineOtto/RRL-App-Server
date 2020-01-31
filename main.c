@@ -15,6 +15,7 @@ CURLcode doRequest(char *url) {
   curl_easy_setopt(handle, CURLOPT_USE_SSL, CURLUSESSL_TRY);
   curl_easy_setopt(handle, CURLOPT_FOLLOWLOCATION, 1L);
   curl_easy_setopt(handle, CURLOPT_USERAGENT, "App-Scraper");
+  curl_easy_setopt(curl, CURLOPT_HEADER, 1L);
 
   CURLcode result = curl_easy_perform(handle);
   return result;
@@ -27,14 +28,10 @@ int main(int argc, char const *argv[]) {
   const char *runtimeAPI = getenv("AWS_LAMBDA_RUNTIME_API");
 
   // char *url = "http://" + AWS_LAMBDA_RUNTIME_API + "/2018-06-01/runtime/invocation/next";
-  printf("PreUrl\n");
   char url[200];
   strcpy(url, "http://");
-  printf("MidUrl\n");
   strcat(url, "example.com");
-  printf("PostUrl\n");
   CURLcode result = doRequest(url);
-  printf("------------\n%d\n", result);
 
 
   //An intentional infinite loop
