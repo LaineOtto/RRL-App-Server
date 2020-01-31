@@ -27,7 +27,7 @@ int main(int argc, char const *argv[]) {
 
   // char *url = "http://" + AWS_LAMBDA_RUNTIME_API + "/2018-06-01/runtime/invocation/next";
   char *url = "http://example.com";
-  char *result = doRequest(url);
+  CURLcode *result = doRequest(url);
 
   //An intentional infinite loop
   // for (;;) {
