@@ -6,7 +6,7 @@
 #include <curl/curl.h>
 #include "functions.h"
 
-CURLcode *doRequest(char *url) {
+CURLcode doRequest(char *url) {
   CURL *handle = curl_easy_init();
 
   curl_easy_setopt(handle, CURLOPT_URL, url);
@@ -15,7 +15,7 @@ CURLcode *doRequest(char *url) {
   curl_easy_setopt(handle, CURLOPT_FOLLOWLOCATION, 1L);
   curl_easy_setopt(handle, CURLOPT_USERAGENT, "App-Scraper");
 
-  CURLcode *result = curl_easy_perform(handle);
+  CURLcode result = curl_easy_perform(handle);
   return result;
 }
 
