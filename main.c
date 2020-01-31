@@ -26,9 +26,10 @@ int main(int argc, char const *argv[]) {
   const char *runtimeAPI = getenv("AWS_LAMBDA_RUNTIME_API");
 
   // char *url = "http://" + AWS_LAMBDA_RUNTIME_API + "/2018-06-01/runtime/invocation/next";
-  char *url = "http://example.com";
+  char *urlPrefix = "http://"
+  char *url = urlPrefix"example.com";
   CURLcode result = doRequest(url);
-  printf("%s\n", result);
+
 
   //An intentional infinite loop
   // for (;;) {
