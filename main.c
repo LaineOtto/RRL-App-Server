@@ -30,7 +30,7 @@ int main(int argc, char const *argv[]) {
   printf("PreUrl\n", );
   char *url = "http://";
   strcat(url, "example.com");
-  printf("PostUrl\n", );
+  printf("PostUrl\n");
   CURLcode result = doRequest(url);
 
 
