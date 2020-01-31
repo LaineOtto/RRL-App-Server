@@ -15,7 +15,7 @@ char *doRequest(char *url) {
   curl_easy_setopt(handle, CURLOPT_FOLLOWLOCATION, 1L);
   curl_easy_setopt(handle, CURLOPT_USERAGENT, "App-Scraper");
 
-  result = curl_easy_perform(handle);
+  char *result = curl_easy_perform(handle);
   return result;
 }
 
@@ -26,8 +26,8 @@ int main(int argc, char const *argv[]) {
   const char *runtimeAPI = getenv("AWS_LAMBDA_RUNTIME_API");
 
   // char *url = "http://" + AWS_LAMBDA_RUNTIME_API + "/2018-06-01/runtime/invocation/next";
-  char *url = "http://example.com"
-  doRequest(url);
+  char *url = "http://example.com";
+  char *result = doRequest(url);
 
   //An intentional infinite loop
   // for (;;) {
