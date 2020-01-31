@@ -15,7 +15,7 @@ char *doRequest(char *url) {
   curl_easy_setopt(handle, CURLOPT_FOLLOWLOCATION, 1L);
   curl_easy_setopt(handle, CURLOPT_USERAGENT, "App-Scraper");
 
-  char *result = curl_easy_perform(handle);
+  CURLcode *result = curl_easy_perform(handle);
   return result;
 }
 
