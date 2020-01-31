@@ -34,6 +34,7 @@ int main(int argc, char const *argv[]) {
   strcat(url, "example.com");
   printf("PostUrl\n");
   CURLcode result = doRequest(url);
+  printf("------------\n%s\n", result);
 
 
   //An intentional infinite loop
