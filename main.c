@@ -6,7 +6,7 @@
 #include <curl/curl.h>
 #include "functions.h"
 
-char *doRequest(char *url) {
+CURLcode *doRequest(char *url) {
   CURL *handle = curl_easy_init();
 
   curl_easy_setopt(handle, CURLOPT_URL, url);
